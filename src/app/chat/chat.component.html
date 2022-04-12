@@ -1,0 +1,156 @@
+<base href="/" />
+<div id="background_header">
+  <button class="logout" (click)="logout()">Log-Out</button>
+</div>
+<div id="background_body"></div>
+<div id="ChatContainer">
+  <!-- <div id="topbar"> -->
+  <!-- <div id="chatbar"></div>
+  </div>
+  <div id="sidebar">
+    <ul *ngFor="let item of userArray">
+      <img
+        src="{{ imageUrl }}{{ item.image }}"
+        alt="image"
+        style="height: 20px; width: 20px"
+      />
+      {{
+        item.name
+      }}
+    </ul> -->
+  <!-- </div> -->
+  <!-- <ul *ngFor="let item of userArray">
+    <img
+      src="{{ imageUrl }}{{ item.image }}"
+      alt="image"
+      style="height: 20px; width: 20px"
+    />
+    {{
+      item.name
+    }}
+  </ul> -->
+
+  <div class="container clearfix" id="chatContainer1">
+    <div class="people-list" id="people-list">
+      <div class="Dp">
+        <img id="dp" src="{{ imageUrl }}{{ LoggedUserImage }}" alt="DP" />
+
+        <span>{{ loggedUserName }}</span>
+        <div class="status"><i class="fa fa-circle online"></i> online</div>
+      </div>
+      <hr class="line" />
+      <ul class="list">
+        <li
+          id="userList"
+          class="clearfix"
+          *ngFor="let user of userArray; index as i"
+          (click)="openChat(user.id)"
+        >
+          <img src="{{ imageUrl }}{{ user.image }}" alt="image" />
+
+          <div class="about">
+            <div class="name">{{ user.name }}</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="chat">
+      <div class="chat-header clearfix">
+        <img
+          id="ReceiverImg"
+          src="{{ imageUrl }}{{ ReceiverData.image }}"
+          alt="avatar"
+        />
+
+        <div class="chat-about">
+          <div class="chat-with">{{ ReceiverData.name }}</div>
+        </div>
+        <i class="fa fa-star"></i>
+      </div>
+      <!-- end chat-header -->
+
+      <div class="chat-history">
+        <ul>
+          <li class="clearfix" *ngFor="let message of ReceiverData">
+            <div class="message-data align-right">
+              &nbsp;
+              <span class="message-data-name"> </span>
+              <i class="fa fa-circle me" id="sNameTag"> {{ loggedUserName }}</i>
+            </div>
+            <div
+              class="message other-message float-right"
+              *ngIf="message.sender_id == LoggedUserId; else elseBlock"
+            >
+              {{ message.message }}
+            </div>
+            <ng-template #elseBlock>
+              <li>
+                <div class="message-data align-left">
+                  &nbsp;
+                  <div class="message-data">
+                    <span class="message-data-name"> </span>
+                    <i class="fa fa-circle online" id="rNameTag"
+                      >{{ message.receiver_name }}
+                    </i>
+                  </div>
+                  <div class="message my-message">
+                    {{ message.message }}
+                  </div>
+                </div>
+              </li>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+      <!-- end chat-history -->
+
+      <div class="chat-message clearfix">
+        <form (ngSubmit)="SendMessage()">
+          <textarea
+            name="message-to-send"
+            id="message-to-send"
+            placeholder="Type your message"
+            rows="3"
+            [(ngModel)]="Send_message"
+          ></textarea>
+
+          <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+          <i class="fa fa-file-image-o"></i>
+
+          <button>Send</button>
+        </form>
+      </div>
+
+      <!-- end chat-message -->
+    </div>
+    <!-- end chat -->
+  </div>
+  <!-- end container -->
+</div>
+
+<script id="message-template" type="text/x-handlebars-template">
+  <li class="clearfix">
+    <div class="message-data align-right">
+      <span class="message-data-time">{{time}}, Today</span>
+      &nbsp; &nbsp;
+      <span class="message-data-name">Olia</span>
+      <i class="fa fa-circle me"></i>
+    </div>
+    <div class="message other-message float-right">
+      {{messageOutput}}
+    </div>
+  </li>
+</script>
+
+<script id="message-response-template" type="text/x-handlebars-template">
+  <li>
+    <div class="message-data">
+      <span class="message-data-name"><i class="fa fa-circle online"></i>
+        Vincent</span>
+      <span class="message-data-time">{{time}}, Today</span>
+    </div>
+    <div class="message my-message">
+      {{response}}
+    </div>
+  </li>
+</script>
